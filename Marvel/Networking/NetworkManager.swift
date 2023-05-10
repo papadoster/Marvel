@@ -16,8 +16,8 @@ class NetworkManager {
     
     static func getRequest(offset: Int, completion: @escaping (_ characters: [Result]) -> ()) {
         
-        let publicKey = Api.publicKey
-        let privateKey = Api.privateKey
+        let publicKey = Keys.publicKey
+        let privateKey = Keys.privateKey
         let baseUrl = "https://gateway.marvel.com/v1/public/characters?limit=20"
         
         let ts = String(Date().timeIntervalSince1970)
