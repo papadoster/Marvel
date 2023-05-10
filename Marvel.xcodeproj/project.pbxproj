@@ -17,6 +17,7 @@
 		7FB7434A2A0ACFE20048D329 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB743492A0ACFE20048D329 /* CollectionViewCell.swift */; };
 		7FB7434C2A0AD4750048D329 /* CharacterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB7434B2A0AD4750048D329 /* CharacterModel.swift */; };
 		7FB7435B2A0B32030048D329 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB7435A2A0B32030048D329 /* ApiKeys.swift */; };
+		7FB7435D2A0B33470048D329 /* ignore3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB7435C2A0B33470048D329 /* ignore3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		7FB743492A0ACFE20048D329 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		7FB7434B2A0AD4750048D329 /* CharacterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterModel.swift; sourceTree = "<group>"; };
 		7FB7435A2A0B32030048D329 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
+		7FB7435C2A0B33470048D329 /* ignore3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ignore3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				7FB7434B2A0AD4750048D329 /* CharacterModel.swift */,
 				7FB743492A0ACFE20048D329 /* CollectionViewCell.swift */,
 				7FB743452A0AC4DC0048D329 /* NetworkManager.swift */,
+				7FB7435C2A0B33470048D329 /* ignore3.swift */,
 				7FB7435A2A0B32030048D329 /* ApiKeys.swift */,
 				7FB743372A0AC4B30048D329 /* Main.storyboard */,
 				7FB7433A2A0AC4B70048D329 /* Assets.xcassets */,
@@ -157,6 +160,7 @@
 				7FB7434C2A0AD4750048D329 /* CharacterModel.swift in Sources */,
 				7FB743322A0AC4B30048D329 /* AppDelegate.swift in Sources */,
 				7FB743342A0AC4B30048D329 /* SceneDelegate.swift in Sources */,
+				7FB7435D2A0B33470048D329 /* ignore3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
