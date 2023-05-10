@@ -23,6 +23,9 @@ class MainCollectionViewController: UICollectionViewController {
     private var heightCell: CGFloat = 0
     private var grid = 2
     
+    
+    
+    
     @IBOutlet weak var gridButton: UIBarButtonItem!
     
     override func viewDidLoad() {
