@@ -26,8 +26,8 @@ class NetworkManager {
 
         
         let session = URLSession.shared
-        session.dataTask(with: URLRequest(url: URL(string: url)!)) { data, response, error in
-            guard let response = response, let data = data else { return }
+        session.dataTask(with: URLRequest(url: URL(string: url)!)) { data, _, error in
+            guard let data = data else { return }
             
             do {
                 
