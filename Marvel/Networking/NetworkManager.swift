@@ -31,11 +31,8 @@ class NetworkManager {
             guard let data = data else { return }
             
             do {
-                
                 let character = try JSONDecoder().decode(Characters.self, from: data)
-                print(character.data.results[0].name)
                 completion(character.data.results)
-                
             } catch {
                 print(error)
             }
@@ -48,7 +45,7 @@ class NetworkManager {
     func downloadImage(url: String, isNotAvailable: Bool, completion: @escaping (_ image: UIImage) -> (), complitionResponse: @escaping (_ response: URLResponse) -> ()) {
         
             if let imageCache = cache.object(forKey: NSString(string: url)) {
-                print("cache hit")
+//                print("cache hit")
                 completion(imageCache)
                 return
             }

@@ -23,9 +23,6 @@ class MainCollectionViewController: UICollectionViewController {
     private var heightCell: CGFloat = 0
     private var grid = 2
     
-    
-    
-    
     @IBOutlet weak var gridButton: UIBarButtonItem!
     
     override func viewDidLoad() {
@@ -104,19 +101,21 @@ class MainCollectionViewController: UICollectionViewController {
 
             }
             self.characters.append(contentsOf: characters)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+
+            }
         }
     }
     
     func checkResponceCounting() {
 
         let numOfDownloaded = responseCounting.count
+        let progress = Float(5 * numOfDownloaded) / 100
         DispatchQueue.main.async {
-            self.progressView.progress = 1 / Float(21 - numOfDownloaded)
+            self.progressView.progress = progress
+            
         }
-        print(numOfDownloaded)
         if numOfDownloaded >= 20 {
             DispatchQueue.main.async {
                 self.progressView.removeFromSuperview()
@@ -155,8 +154,6 @@ class MainCollectionViewController: UICollectionViewController {
             } else {
                 isImageNotAvailable = false
             }
-            
-            print(newUrl)
             return newUrl
         }
         return url
@@ -193,8 +190,7 @@ class MainCollectionViewController: UICollectionViewController {
 
 extension MainCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let width = (self.view.frame.width - 80) / 3
-//        (width / 3 * 4) + 20
+        
         return CGSize(width: widthCell, height: heightCell)
     }
 }
