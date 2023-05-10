@@ -11,17 +11,28 @@ private let reuseIdentifier = "Cell"
 
 class MainCollectionViewController: UICollectionViewController {
     
-    var networkManager = NetworkManager()
+    private var networkManager = NetworkManager()
     
-    var characters = [Result]()
-    var progressView = UIProgressView()
-    var image = UIImageView()
-    var responseCounting: [URLResponse] = []
-
+    private var characters = [Result]()
+    private var progressView = UIProgressView()
+    private var image = UIImageView()
+    private var responseCounting: [URLResponse] = []
+    private var isImageNotAvailable: Bool = false
+    
+    private var widthCell: CGFloat = 0
+    private var heightCell: CGFloat = 0
+    private var grid = 2
+    
+    @IBOutlet weak var gridButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.tintColor = .red
-        progressView.tintColor = .red
+        
+        widthCell = (view.frame.width - 60) / 2
+        heightCell = (widthCell / 3 * 4) + 30
+        
+        progressView.tintColor = .white
+        view.backgroundColor = .red
         
         progressView.frame = CGRect(x: (view.frame.width / 2) - 100, y: view.frame.height / 2, width: 200, height: 2)
         
@@ -33,6 +44,32 @@ class MainCollectionViewController: UICollectionViewController {
         fetchDataFirstTime(offset: 0)
     }
     
+    
+    @IBAction func gridButtonPressed(_ sender: UIBarButtonItem) {
+        switch grid {
+        case 1 :
+            gridButton.image = UIImage(systemName: "square.grid.3x2")
+            grid = 2
+            widthCell = (self.view.frame.width - 60) / 2
+            heightCell = (widthCell / 3 * 4) + 30
+            collectionView.reloadData()
+        case 2 :
+            gridButton.image = UIImage(systemName: "square")
+            grid = 3
+            widthCell = (self.view.frame.width - 80) / 3
+            heightCell = (widthCell / 3 * 4) + 20
+            collectionView.reloadData()
+        case 3 :
+            gridButton.image = UIImage(systemName: "square.grid.2x2")
+            grid = 1
+            widthCell = (self.view.frame.width - 40)
+            heightCell = (widthCell / 3 * 4) + 40
+            collectionView.reloadData()
+        default:
+            return
+        }
+    }
+    
     //MARK: - fetchData
     
     func fetchDataFirstTime(offset: Int) {
@@ -41,7 +78,7 @@ class MainCollectionViewController: UICollectionViewController {
             for character in characters {
                 let urlImage = character.thumbnail.path
                 let newUrl = self.urlFormatter(url: urlImage, extention: character.thumbnail.thumbnailExtension)
-                self.networkManager.downloadImage(url: newUrl) { image in
+                self.networkManager.downloadImage(url: newUrl, isNotAvailable: self.isImageNotAvailable) { image in
                     
                 } complitionResponse: { response in
                     self.responseCounting.append(response)
@@ -60,7 +97,7 @@ class MainCollectionViewController: UICollectionViewController {
             for character in characters {
                 let urlImage = character.thumbnail.path
                 let newUrl = self.urlFormatter(url: urlImage, extention: character.thumbnail.thumbnailExtension)
-                self.networkManager.downloadImage(url: newUrl) { _ in } complitionResponse: { _ in }
+                self.networkManager.downloadImage(url: newUrl, isNotAvailable: self.isImageNotAvailable) { _ in } complitionResponse: { _ in }
 
             }
             self.characters.append(contentsOf: characters)
@@ -98,7 +135,7 @@ class MainCollectionViewController: UICollectionViewController {
         let width = (self.view.frame.width - 60) / 2
         cell.image.frame = CGRect(x: 0, y: 0, width: width, height: width / 3 * 4)
         
-        networkManager.downloadImage(url: newUrl) { image in
+        networkManager.downloadImage(url: newUrl, isNotAvailable: isImageNotAvailable) { image in
             DispatchQueue.main.async {
                 cell.image.image = image
             }
@@ -109,6 +146,14 @@ class MainCollectionViewController: UICollectionViewController {
         let stringArr = url.components(separatedBy: "://")
         if let body = stringArr.last {
             let newUrl = "https://\(body).\(extention)"
+            
+            if newUrl.contains("image_not_available") {
+                isImageNotAvailable = true
+            } else {
+                isImageNotAvailable = false
+            }
+            
+            print(newUrl)
             return newUrl
         }
         return url
@@ -145,7 +190,8 @@ class MainCollectionViewController: UICollectionViewController {
 
 extension MainCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (self.view.frame.width - 60) / 2
-        return CGSize(width: width, height: (width / 3 * 4) + 30)
+//        let width = (self.view.frame.width - 80) / 3
+//        (width / 3 * 4) + 20
+        return CGSize(width: widthCell, height: heightCell)
     }
 }

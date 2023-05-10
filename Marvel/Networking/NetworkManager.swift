@@ -11,7 +11,8 @@ import CryptoKit
 class NetworkManager {
     
     var cache = NSCache<NSString, UIImage>()
-    var downloadedImage = 0
+    
+    //MARK: - Get Request
     
     static func getRequest(offset: Int, completion: @escaping (_ characters: [Result]) -> ()) {
         
@@ -42,37 +43,45 @@ class NetworkManager {
         }.resume()
     }
     
-    func downloadImage(url: String, completion: @escaping (_ image: UIImage) -> (), complitionResponse: @escaping (_ response: URLResponse) -> ()) {
+    //MARK: - DownloadImage
+    
+    func downloadImage(url: String, isNotAvailable: Bool, completion: @escaping (_ image: UIImage) -> (), complitionResponse: @escaping (_ response: URLResponse) -> ()) {
         
-        if let imageCache = cache.object(forKey: NSString(string: url)) {
-            print("cache hit")
-            completion(imageCache)
-            return
-        }
-        
-        guard let realUrl = URL(string: url) else { return }
-        
-        let session = URLSession.shared
-        
-        session.dataTask(with: URLRequest(url: realUrl)) { data, response, error in
-            if error != nil {
-                print(error!)
+            if let imageCache = cache.object(forKey: NSString(string: url)) {
+                print("cache hit")
+                completion(imageCache)
+                return
             }
             
-            if let response = response {
-                complitionResponse(response)
-            }
+            guard let realUrl = URL(string: url) else { return }
             
-            if let data = data, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self.cache.setObject(image, forKey: NSString(string: url))
-                    completion(image)
+            let session = URLSession.shared
+            
+            session.dataTask(with: URLRequest(url: realUrl)) { data, response, error in
+                if error != nil {
+                    print(error!)
+                }
+                
+                if let response = response {
+                    complitionResponse(response)
+                }
+                
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        if isNotAvailable {
+                            completion(UIImage(named: "ImageNotFound")!)
+                        } else {
+                            self.cache.setObject(image, forKey: NSString(string: url))
+                            completion(image)
+                        }
+                    }
                 }
             }
-        }
-        .resume()
+            .resume()
     }
 }
+
+//MARK: - extention String MD5
 
 extension String {
 var MD5: String {
